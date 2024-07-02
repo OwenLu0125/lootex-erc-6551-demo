@@ -9,7 +9,7 @@ export function WriteContract() {
   const [amount, setAmount] = useState<number>(1);
 
 
-  const { write, data, error, isLoading, isError } = useContractWrite({
+  const { write: mintFunction, data, error, isLoading, isError } = useContractWrite({
     address: "0xd060E336282bBF24D507f16EC9961EE677cc5915",
     abi: Erc721.abi,
     functionName: 'mint',
@@ -22,7 +22,8 @@ export function WriteContract() {
       <div>Mint a wagmi:</div>
       <div>
         <input onChange={(e) => setTokenId(e.target.value)} placeholder="token id" value={tokenId} />
-        <button disabled={isLoading} onClick={() => write({ args: [BigInt(tokenId)] })}>
+        <input onChange={(e) => setAmount(Number(e.target.value))} placeholder="amount" value={amount} />
+        <button disabled={isLoading} onClick={() => mintFunction({ args: [BigInt(tokenId)] })}>
           Mint
         </button>
       </div>
