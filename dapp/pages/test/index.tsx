@@ -1,13 +1,12 @@
 import { SetStateAction, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-import Image from 'next/image'
 import Head from 'next/head';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Container, Paper, TextField, Button, Typography, Grid, Box, colors } from '@mui/material';
-import { useAccount, useWalletClient, useContractWrite } from 'wagmi'
-import Erc721 from '../../Contact/Erc721-demo.json'
+import { useWalletClient } from 'wagmi'
 import { TokenboundClient } from '@tokenbound/sdk'
 import { type TBAccountParams } from "@tokenbound/sdk/dist/src";
+import { WriteContract } from '../../components/WriteContract';
 
 const DEFAULT_ACCOUNT: TBAccountParams = {
   tokenContract: "0x",
@@ -17,17 +16,8 @@ const DEFAULT_ACCOUNT: TBAccountParams = {
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [addressInput, setAddressInput] = useState<string>('');
-  const [amount, setAmount] = useState<number>(1);
   const { data: walletClient, isError, isLoading } = useWalletClient();
   const tokenboundClient = new TokenboundClient({ signer: walletClient, chainId: 11155111 })
-  const { address } = useAccount();
-
-  const { write: mintFunction } = useContractWrite({
-    address: "0xd060E336282bBF24D507f16EC9961EE677cc5915",
-    abi: Erc721.abi,
-    functionName: "mint",
-    args: [amount]
-  });
 
   return (
     <main className="...">
@@ -98,11 +88,7 @@ const Home: NextPage = () => {
                   setAddressInput('0x51840Ea7B892145feaCB347Ab2ebaac9032A2140');
                 }}>address 2</Button>
               </Box>
-              < Button variant="contained"
-                onClick={() => {
-                  mintFunction();
-                }}
-              >mint</Button>
+              <WriteContract />
             </Container>
           </Paper>
         </Box>
