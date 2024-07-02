@@ -9,6 +9,7 @@ import {
   holesky,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import { useEffect, useState } from 'react';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -35,10 +36,12 @@ const wagmiConfig = createConfig({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
+        {mounted && <Component {...pageProps} />}
       </RainbowKitProvider>
     </WagmiConfig>
   );
