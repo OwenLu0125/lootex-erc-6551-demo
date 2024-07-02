@@ -4,7 +4,8 @@ import Image from 'next/image'
 import Head from 'next/head';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Container, Paper, TextField, Button, Typography, Grid, Box, colors } from '@mui/material';
-import { useAccount, useWalletClient } from 'wagmi'
+import { useAccount, useWalletClient, useContractWrite } from 'wagmi'
+import Erc721 from '../../Contact/Erc721-demo.json'
 import { TokenboundClient } from '@tokenbound/sdk'
 import { type TBAccountParams } from "@tokenbound/sdk/dist/src";
 
@@ -16,9 +17,17 @@ const DEFAULT_ACCOUNT: TBAccountParams = {
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [addressInput, setAddressInput] = useState<string>('');
+  const [amount, setAmount] = useState<number>(1);
   const { data: walletClient, isError, isLoading } = useWalletClient();
   const tokenboundClient = new TokenboundClient({ signer: walletClient, chainId: 11155111 })
   const { address } = useAccount();
+
+  const { write: mintFunction } = useContractWrite({
+    address: "0xd060E336282bBF24D507f16EC9961EE677cc5915",
+    abi: Erc721.abi,
+    functionName: "mint",
+    args: [amount]
+  });
 
   return (
     <main className="...">
@@ -48,14 +57,7 @@ const Home: NextPage = () => {
                 display: 'none'
               },
             }}>
-            <Image
-              src='/logo-002.png'
-              alt='logo'
-              layout='responsive'
-              width={100}
-              height={100}
-              style={{ marginBottom: '15px', borderRadius: '20px' }}
-            ></Image>
+
             <Container sx={{ py: 2 }} maxWidth="md">
               <Grid container justifyContent="center" alignItems="center">
                 <ConnectButton />
@@ -96,20 +98,17 @@ const Home: NextPage = () => {
                   setAddressInput('0x51840Ea7B892145feaCB347Ab2ebaac9032A2140');
                 }}>address 2</Button>
               </Box>
-              {/* <Button fullWidth variant="outlined" sx={{
-                  mb: '15px'
+              < Button variant="contained"
+                onClick={() => {
+                  mintFunction();
                 }}
-                  onClick={() => setAdd(addressInput)} >Fetch fish
-                </Button> */}
-              {address && address ? (<Typography variant='h3' align='center' sx={{
-                color: 'white',
-                mb: '1rem'
-              }}>My Aquarium</Typography>) : null}
+              >mint</Button>
             </Container>
           </Paper>
         </Box>
-      ) : null}
-    </main>
+      ) : null
+      }
+    </main >
   )
 }
 
