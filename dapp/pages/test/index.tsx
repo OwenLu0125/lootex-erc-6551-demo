@@ -7,6 +7,7 @@ import { useWalletClient } from 'wagmi'
 import { TokenboundClient } from '@tokenbound/sdk'
 import { type TBAccountParams } from "@tokenbound/sdk/dist/src";
 import { WriteContract } from '../../components/WriteContract';
+import { ReadContract } from '../../components/ReadContract';
 
 const DEFAULT_ACCOUNT: TBAccountParams = {
   tokenContract: "0x",
@@ -89,6 +90,7 @@ const Home: NextPage = () => {
                 }}>address 2</Button>
               </Box>
               <WriteContract />
+              <ReadContract />
             </Container>
           </Paper>
         </Box>
