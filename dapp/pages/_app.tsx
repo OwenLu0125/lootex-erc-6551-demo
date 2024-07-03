@@ -16,7 +16,10 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     mainnet,
     sepolia,
     holesky,
-    mantle,
+    {
+      ...mantle,
+      iconUrl: 'https://cryptologos.cc/logos/mantle-mnt-logo.png',
+    },
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
   ],
   [publicProvider()]
