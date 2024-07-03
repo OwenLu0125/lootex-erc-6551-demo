@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import type { Address } from 'wagmi';
+import { useEffect, useState } from 'react';
 import { BaseError } from 'viem';
 import { useContractRead } from 'wagmi';
 import Erc721 from '../Contact/Erc721-demo.json'
 import { Typography } from '@mui/material';
+import useFetchIPFSData from '../hooks/useFetchIPFSData'
 
 export function ReadContract() {
   return (
@@ -15,13 +15,24 @@ export function ReadContract() {
 
 const TokenURI = () => {
   const [tokenId, setTokenId] = useState<number | undefined>(undefined);
-  const [value, setValue] = useState<number | undefined>(tokenId); const { data, error, isLoading, isSuccess } = useContractRead({
+  const [value, setValue] = useState<number | undefined>(tokenId);
+
+  const { data: ipfsData, error, isLoading, isSuccess } = useContractRead({
     address: "0xd060E336282bBF24D507f16EC9961EE677cc5915",
     abi: Erc721.abi,
     functionName: 'tokenURI',
     args: [tokenId],
     enabled: Boolean(tokenId),
   });
+
+  const { data: fetchedData, isLoading: isDataLoading, error: dataError } = useFetchIPFSData(ipfsData as string);
+
+  useEffect(() => {
+    console.log(ipfsData);
+    console.log(error);
+    console.log(fetchedData);
+    console.log(dataError);
+  }, [ipfsData, error, fetchedData, dataError]);
 
 
   return (
@@ -39,7 +50,7 @@ const TokenURI = () => {
         value={value || ''}
       />
       <button onClick={() => setTokenId(value)}>{isLoading ? 'fetching...' : 'fetch'}</button>
-      {isSuccess && data?.toString()}
+      {isSuccess && ipfsData?.toString()}
       {error && <div>{(error as BaseError).shortMessage || error.message}</div>}
     </div>
   );
