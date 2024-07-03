@@ -5,8 +5,8 @@ import type { AppProps } from 'next/app';
 import { configureChains, createConfig, sepolia, WagmiConfig } from 'wagmi';
 import {
   mainnet,
-  goerli,
   holesky,
+  mantle,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { useEffect, useState } from 'react';
@@ -14,9 +14,9 @@ import { useEffect, useState } from 'react';
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     mainnet,
-    goerli,
     sepolia,
     holesky,
+    mantle,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
   ],
   [publicProvider()]
