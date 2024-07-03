@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useContractWrite, useWaitForTransaction } from 'wagmi';
-import Erc6551 from '../Contact/erc6551-Registry.json'
+import Erc6551 from '../Contact/ERC6551Account.json'
 import { Typography } from '@mui/material';
 
 export function WriteContract() {
