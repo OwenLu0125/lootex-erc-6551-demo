@@ -2,6 +2,7 @@
   "_format": "hh-sol-artifact-1",
   "contractName": "EnglishAuction",
   "sourceName": "contracts/EnglishAuction.sol",
+  "contractAddress": "0xd060E336282bBF24D507f16EC9961EE677cc5915",
   "abi": [
     {
       "inputs": [
