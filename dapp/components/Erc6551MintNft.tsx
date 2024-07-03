@@ -92,7 +92,15 @@ export function Erc6551MintNft() {
         </Button>
         {isPending && <div>Pending...</div>}
         {receipt && <div>{receipt.transactionHash}</div>}
-        {isError && error && <div>{error.toString()}</div>}
+        {isError && error &&
+          <Typography
+            sx={{
+              color: 'purple',
+            }}
+          >
+            {error.toString()}
+          </Typography>
+        }
       </Box>
     </>
   );
