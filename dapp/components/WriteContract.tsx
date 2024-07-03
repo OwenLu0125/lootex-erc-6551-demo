@@ -1,6 +1,6 @@
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useContractWrite, useWaitForTransaction } from 'wagmi';
-import Erc721 from '../Contact/Erc721-demo.json'
+import Erc6551 from '../Contact/erc6551-Registry.json'
 import { Typography } from '@mui/material';
 
 export function WriteContract() {
@@ -10,7 +10,7 @@ export function WriteContract() {
 
   const { write: mintFunction, data, error, isLoading, isError } = useContractWrite({
     address: "0xd060E336282bBF24D507f16EC9961EE677cc5915",
-    abi: Erc721.abi,
+    abi: Erc6551.abi,
     functionName: 'mint',
   });
   const { data: receipt, isLoading: isPending, isSuccess } = useWaitForTransaction({ hash: data?.hash });

@@ -3,22 +3,14 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Container, Paper, TextField, Button, Typography, Grid, Box, colors } from '@mui/material';
-import { useWalletClient } from 'wagmi'
-import { TokenboundClient } from '@tokenbound/sdk'
-import { type TBAccountParams } from "@tokenbound/sdk/dist/src";
 import { WriteContract } from '../../components/WriteContract';
 import { ReadContract } from '../../components/ReadContract';
-
-const DEFAULT_ACCOUNT: TBAccountParams = {
-  tokenContract: "0x",
-  tokenId: ""
-}
+import { CreateErc6551Account } from '../../components/CreateErc6551Account';
 
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [addressInput, setAddressInput] = useState<string>('');
-  const { data: walletClient, isError, isLoading } = useWalletClient();
-  const tokenboundClient = new TokenboundClient({ signer: walletClient, chainId: 11155111 })
+  const [nftContractAddressInput, setNftContractAddressInput] = useState<string>('');
+  const [tokenIdInput, setTokenIdInput] = useState<number>(Number);
 
   return (
     <main className="...">
@@ -53,44 +45,9 @@ const Home: NextPage = () => {
               <Grid container justifyContent="center" alignItems="center">
                 <ConnectButton />
               </Grid>
-              <TextField fullWidth label="Type TBA address" id="addInput"
-                InputLabelProps={{ style: { color: 'white' } }}
-                color='secondary'
-                sx={{
-                  mb: '15px',
-                  mt: '15px',
-                }}
-                value={addressInput}
-                inputProps={{
-                  style: { color: 'white' },
-                }}
-                onChange={(e: { target: { value: SetStateAction<string> } }) => {
-                  if (e.target.value.toString().startsWith("0x")) {
-                    setAddressInput(e.target.value);
-                  }
-                  setAddressInput(e.target.value);
-                }}
-              />
-              <Box
-                sx={{ mb: '10px' }}
-              >
-                <Typography
-                  display={'inline'}
-                  sx={{
-                    color: 'white'
-                  }}
-                >
-                  Example:
-                </Typography>
-                <Button onClick={() => {
-                  setAddressInput('0x21D07Aa5495609e009766cE9ABA798e5C668e86a');
-                }}>address 1</Button>
-                <Button onClick={() => {
-                  setAddressInput('0x51840Ea7B892145feaCB347Ab2ebaac9032A2140');
-                }}>address 2</Button>
-              </Box>
-              <WriteContract />
-              <ReadContract />
+              <CreateErc6551Account />
+              {/* <WriteContract /> */}
+              {/* <ReadContract /> */}
             </Container>
           </Paper>
         </Box>
