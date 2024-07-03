@@ -4,6 +4,7 @@ import { useContractRead } from 'wagmi';
 import Erc721 from '../Contact/Erc721-demo.json'
 import { Typography } from '@mui/material';
 import useFetchIPFSData from '../hooks/useFetchIPFSData'
+import Image from 'next/image'
 
 export function ReadContract() {
   return (
@@ -51,6 +52,7 @@ const TokenURI = () => {
       />
       <button onClick={() => setTokenId(value)}>{isLoading ? 'fetching...' : 'fetch'}</button>
       {isSuccess && ipfsData?.toString()}
+      <Image src={'https://minter.mypinata.cloud/ipfs/QmZZFHhdVBsocHvnefRnhVpLEkhnsrJZsuJbb2NUpCG2Sj'} alt='123' width={100} height={100} />
       {error && <div>{(error as BaseError).shortMessage || error.message}</div>}
     </div>
   );
