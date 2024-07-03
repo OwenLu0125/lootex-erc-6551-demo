@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useContractWrite, useWaitForTransaction } from 'wagmi';
-import { Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import Erc6551 from '../Contact/Erc6551-createAccount.json'
 
 export function CreateErc6551Account() {
@@ -32,58 +32,67 @@ export function CreateErc6551Account() {
   }, [data, error, isError, isLoading, isPending, isSuccess, receipt])
 
   return (
-    <div>
-      <Typography
-        variant='h5'
+    <>
+      <Box
         sx={{
-          color: 'white'
-        }}>
-        create erc6551 account:
-      </Typography>
-      <div>
-        <TextField fullWidth label="type nft contract address" id="addInput"
-          InputLabelProps={{ style: { color: 'white' } }}
-          color='secondary'
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          width: '100%',
+        }}
+      >
+        <Typography
+          variant='h5'
           sx={{
-            mb: '15px',
-            mt: '15px',
-          }}
-          inputProps={{
-            style: { color: 'white' },
-          }}
-          value={tokenContract}
-          onChange={(e) => setTokenContract(e.target.value)}
-        />
-        <TextField fullWidth label="token id" id="addInput"
-          InputLabelProps={{ style: { color: 'white' } }}
-          color='secondary'
-          sx={{
-            mb: '15px',
-            mt: '15px',
-          }}
-          inputProps={{
-            style: { color: 'white' },
-          }}
-          value={tokenId}
-          onChange={(e) => setTokenId(e.target.value)}
-        />
-        <Button fullWidth variant="contained" disabled={isLoading} onClick={() => createFunction()}>
-          create
-        </Button>
-      </div>
-      {isPending && <div>Pending...</div>}
-      {/* TODO: 確認下一行是否可以正確顯示 tba 資料 */}
-      {isSuccess && <div>Success: {receipt && receipt.toString()}</div>}
-      {isError &&
+            color: 'white'
+          }}>
+          create erc6551 account:
+        </Typography>
         <div>
-          <Typography
+          <TextField fullWidth label="type nft contract address" id="addInput"
+            InputLabelProps={{ style: { color: 'white' } }}
+            color='secondary'
             sx={{
-              color: 'purple',
+              mb: '15px',
+              mt: '15px',
             }}
-          >
-            {error?.message}
-          </Typography>
-        </div>}
-    </div>
+            inputProps={{
+              style: { color: 'white' },
+            }}
+            value={tokenContract}
+            onChange={(e) => setTokenContract(e.target.value)}
+          />
+          <TextField fullWidth label="token id" id="addInput"
+            InputLabelProps={{ style: { color: 'white' } }}
+            color='secondary'
+            sx={{
+              mb: '15px',
+              mt: '15px',
+            }}
+            inputProps={{
+              style: { color: 'white' },
+            }}
+            value={tokenId}
+            onChange={(e) => setTokenId(e.target.value)}
+          />
+          <Button fullWidth variant="contained" disabled={isLoading} onClick={() => createFunction()}>
+            create
+          </Button>
+        </div>
+        {isPending && <div>Pending...</div>}
+        {/* TODO: 確認下一行是否可以正確顯示 tba 資料 */}
+        {isSuccess && <div>Success: {receipt && receipt.toString()}</div>}
+        {isError &&
+          <div>
+            <Typography
+              sx={{
+                color: 'purple',
+              }}
+            >
+              {error?.message}
+            </Typography>
+          </div>}
+      </Box>
+    </>
   );
 }
