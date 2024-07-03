@@ -6,6 +6,7 @@ import { Container, Paper, TextField, Button, Typography, Grid, Box, colors } fr
 import { WriteContract } from '../../components/WriteContract';
 import { ReadContract } from '../../components/ReadContract';
 import { CreateErc6551Account } from '../../components/CreateErc6551Account';
+import { Erc6551MintNft } from '../../components/Erc6551MintNft';
 
 const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -46,6 +47,7 @@ const Home: NextPage = () => {
                 <ConnectButton />
               </Grid>
               <CreateErc6551Account />
+              <Erc6551MintNft/>
               {/* <WriteContract /> */}
               {/* <ReadContract /> */}
             </Container>
