@@ -70,12 +70,20 @@ export function CreateErc6551Account() {
         <Button fullWidth variant="contained" disabled={isLoading} onClick={() => createFunction()}>
           create
         </Button>
-
       </div>
       {isPending && <div>Pending...</div>}
       {/* TODO: 確認下一行是否可以正確顯示 tba 資料 */}
       {isSuccess && <div>Success: {receipt && receipt.toString()}</div>}
-      {isError && <div>{error?.message}</div>}
+      {isError &&
+        <div>
+          <Typography
+            sx={{
+              color: 'purple',
+            }}
+          >
+            {error?.message}
+          </Typography>
+        </div>}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useContractWrite, useWaitForTransaction } from 'wagmi';
 import Erc6551 from '../Contact/Erc6551-createAccount.json'
 import ERC6551Account from '../Contact/ERC6551Account.json'
-import { Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { ethers } from 'ethers';
 
 export function Erc6551MintNft() {
@@ -20,7 +20,7 @@ export function Erc6551MintNft() {
       ethers.utils.toUtf8Bytes('mint'),
       0,
     ]
-  });
+  }); // TODO: check the args order and types
   const { data: receipt, isLoading: isPending, isSuccess } = useWaitForTransaction({ hash: data?.hash });
 
   useEffect(() => {
@@ -58,21 +58,42 @@ export function Erc6551MintNft() {
   }
 
   return (
-    <div>
-      <Typography
+    <>
+      <Box
         sx={{
-          color: 'white'
-        }}>
-        use erc6551 mint nft:
-      </Typography>
-      <div>
-        <button disabled={isLoading} onClick={() => mintFunction()}>
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          width: '100%',
+        }}
+      >
+        <Typography
+          variant='h5'
+          sx={{
+            color: 'white'
+          }}>
+          use erc6551 mint nft:
+        </Typography>
+        {/* <TextField fullWidth label="token id" id="addInput"
+          InputLabelProps={{ style: { color: 'white' } }}
+          color='secondary'
+          sx={{
+            mb: '15px',
+            mt: '15px',
+          }}
+          inputProps={{
+            style: { color: 'white' },
+          }}
+          // value={tokenId}
+          // onChange={(e) => setTokenId(e.target.value)}
+        /> */}
+        <Button fullWidth variant="contained" onClick={() => mintFunction()}>
           Mint
-        </button>
-      </div>
-      {isPending && <div>Pending...</div>}
-      {receipt && <div>{receipt.transactionHash}</div>}
-      {isError && error && <div>{error.toString()}</div>}
-    </div>
+        </Button>
+        {isPending && <div>Pending...</div>}
+        {receipt && <div>{receipt.transactionHash}</div>}
+        {isError && error && <div>{error.toString()}</div>}
+      </Box>
+    </>
   );
 }
