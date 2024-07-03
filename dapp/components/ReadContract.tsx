@@ -3,6 +3,7 @@ import type { Address } from 'wagmi';
 import { BaseError } from 'viem';
 import { useContractRead } from 'wagmi';
 import Erc721 from '../Contact/Erc721-demo.json'
+import { Typography } from '@mui/material';
 
 export function ReadContract() {
   return (
@@ -13,27 +14,32 @@ export function ReadContract() {
 }
 
 const TokenURI = () => {
-  const [address, setAddress] = useState<Address>('0xa5cc3c03994DB5b0d9A5eEdD10CabaB0813678AC'); // TODO: change to user address
-  const { data, error, isLoading, isSuccess } = useContractRead({
-    address: "0xd060E336282bBF24D507f16EC9961EE677cc5915",  // TODO: change to user address
+  const [tokenId, setTokenId] = useState<number | undefined>(undefined);
+  const [value, setValue] = useState<number | undefined>(tokenId); const { data, error, isLoading, isSuccess } = useContractRead({
+    address: "0xd060E336282bBF24D507f16EC9961EE677cc5915",
     abi: Erc721.abi,
     functionName: 'tokenURI',
-    args: [address],
-    enabled: Boolean(address),
+    args: [tokenId],
+    enabled: Boolean(tokenId),
   });
 
-  const [value, setValue] = useState<string>(address);
 
   return (
     <div>
-      Token balance: {isSuccess && data?.toString()}
+      <Typography
+        sx={{
+          color: 'white'
+        }}>
+        read contract Token id:
+      </Typography>
       <input
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => setValue(Number(e.target.value))}
         placeholder="tokenId"
         style={{ marginLeft: 4 }}
-        value={value}
+        value={value || ''}
       />
-      <button onClick={() => setAddress(value as Address)}>{isLoading ? 'fetching...' : 'fetch'}</button>
+      <button onClick={() => setTokenId(value)}>{isLoading ? 'fetching...' : 'fetch'}</button>
+      {isSuccess && data?.toString()}
       {error && <div>{(error as BaseError).shortMessage || error.message}</div>}
     </div>
   );
