@@ -6,10 +6,11 @@ import { ethers } from 'ethers';
 
 export function Erc6551MintNft() {
   const [ethersData, setEthersData] = useState<string>('');
-  const [ERC6551AccountWallet, setERC6551AccountWallet] = useState<string>('');
+  const [ERC6551AccountWallet, setERC6551AccountWallet] = useState<any>('');
 
   const { write: mintFunction, data, error, isLoading, isError } = useContractWrite({
-    address: "0x91c3acbd0c22d0ebd751939b3777aee5d7ac1ed3", // fill in the tba address
+    address: ERC6551AccountWallet, // fill in the tba address
+    // 0x91c3acbd0c22d0ebd751939b3777aee5d7ac1ed3
     abi: ERC6551Account.abi,
     functionName: 'execute',
     args: [
@@ -30,7 +31,7 @@ export function Erc6551MintNft() {
       console.log(receipt); // receipt is the transaction receipt
       console.log(isPending);
       console.log(isSuccess);
-      console.log(ethersData); 
+      console.log(ethersData);
     } catch (error) {
       console.error(error);
     }
@@ -81,8 +82,8 @@ export function Erc6551MintNft() {
           inputProps={{
             style: { color: 'white' },
           }}
-          value={ERC6551AccountWallet} //TODO: change variable
-          onChange={(e) => setERC6551AccountWallet(e.target.value)} //TODO: change variable
+          value={ERC6551AccountWallet} 
+          onChange={(e) => setERC6551AccountWallet(e.target.value)}
         />
         <Button fullWidth variant="contained" onClick={() => mintFunction()}>
           Mint
