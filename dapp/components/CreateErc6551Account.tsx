@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { useContractWrite, useWaitForTransaction } from 'wagmi';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import Erc6551 from '../Contact/Erc6551-createAccount.json'
+import { decodeEventLog } from 'viem';
+import { Receipt } from '@mui/icons-material';
 
 export function CreateErc6551Account() {
   const [tokenId, setTokenId] = useState<string>('');
   const [tokenContract, setTokenContract] = useState<string>('');
+  const [deCodeEvent, setDeCodeEvent] = useState<any>();
 
-  const { write: createFunction, data, error, isLoading, isError } = useContractWrite({
+  const { write: createFunction, data, error, isLoading, isError, } = useContractWrite({
     address: "0xeecb21509025987A6F68db167d2194840612337F",
     abi: Erc6551.abi,
     functionName: 'createAccount',
@@ -19,7 +22,22 @@ export function CreateErc6551Account() {
       tokenId
     ],
   });
-  const { data: receipt, isLoading: isPending, isSuccess } = useWaitForTransaction({ hash: data?.hash });
+  const { data: receipt, isLoading: isPending, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+    onSuccess: (receipt) => {
+      console.log(receipt);
+      const deCodeEvent = decodeEventLog(
+        {
+          abi: Erc6551.abi,
+          data: receipt?.logs[0].data,
+          topics: receipt?.logs[0].topics,
+        })
+      console.log(deCodeEvent.args);
+      setDeCodeEvent(deCodeEvent.args);
+    }
+  }
+  );
+
 
   useEffect(() => {
     console.log(data);
@@ -79,8 +97,16 @@ export function CreateErc6551Account() {
             create
           </Button>
         </div>
-        {isPending && <div>Pending...</div>}
-        {/* TODO: 確認下一行是否可以正確顯示 tba 資料 */}
+        {isPending &&
+          <div>
+            <Typography
+              sx={{
+                color: 'white',
+              }}
+            >Pending...
+            </Typography>
+          </div>
+        }
         {isSuccess &&
           <>
             <Typography
@@ -88,7 +114,7 @@ export function CreateErc6551Account() {
                 color: 'white',
               }}
             >
-              Success: {receipt && receipt.toString()}
+              Success: {deCodeEvent?.account}
             </Typography>
           </>
         }

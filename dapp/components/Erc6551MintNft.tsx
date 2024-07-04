@@ -83,7 +83,7 @@ export function Erc6551MintNft() {
           inputProps={{
             style: { color: 'white' },
           }}
-          value={ERC6551AccountWallet} 
+          value={ERC6551AccountWallet}
           onChange={(e) => setERC6551AccountWallet(e.target.value)}
         />
         <TextField fullWidth label="NFT contract address" id="addInput"
@@ -102,8 +102,24 @@ export function Erc6551MintNft() {
         <Button fullWidth variant="contained" onClick={() => mintFunction()}>
           Mint
         </Button>
-        {isPending && <div>Pending...</div>}
-        {receipt && <div>{receipt.transactionHash}</div>}
+        {isPending && <div>
+          <Typography
+            sx={{
+              color: 'white',
+            }}
+          >
+            Pending...
+          </Typography>
+        </div>
+        }
+        {receipt && <div>
+          <Typography
+            sx={{
+              color: 'white',
+            }}
+          >{receipt.transactionHash}
+          </Typography>
+        </div>}
         {isError && error &&
           <Typography
             sx={{
