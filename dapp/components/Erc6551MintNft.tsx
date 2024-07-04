@@ -1,26 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useContractWrite, useWaitForTransaction } from 'wagmi';
-import Erc6551 from '../Contact/Erc6551-createAccount.json'
 import ERC6551Account from '../Contact/ERC6551Account.json'
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { ethers } from 'ethers';
 
 export function Erc6551MintNft() {
-  const [tokenId, setTokenId] = useState<string>('');
-  const [amount, setAmount] = useState<number>(1);
-
+  const [ethersData, setEthersData] = useState<string>('');
+  const [ERC6551AccountWallet, setERC6551AccountWallet] = useState<string>('');
 
   const { write: mintFunction, data, error, isLoading, isError } = useContractWrite({
-    address: "0x8fE0093FC05c7cF697400BEBF7f9918C49BD5BFc",
+    address: "0x91c3acbd0c22d0ebd751939b3777aee5d7ac1ed3", // fill in the tba address
     abi: ERC6551Account.abi,
     functionName: 'execute',
     args: [
-      '0x8A45161bFB9c36748CCA23E251143d02cd7b540d',
+      '0x8A45161bFB9c36748CCA23E251143d02cd7b540d', // fill in the nft contract address
       0,
-      ethers.utils.toUtf8Bytes('mint'),
+      ethersData,
       0,
     ]
-  }); // TODO: check the args order and types
+  });
   const { data: receipt, isLoading: isPending, isSuccess } = useWaitForTransaction({ hash: data?.hash });
 
   useEffect(() => {
@@ -32,30 +30,29 @@ export function Erc6551MintNft() {
       console.log(receipt); // receipt is the transaction receipt
       console.log(isPending);
       console.log(isSuccess);
+      console.log(ethersData); 
     } catch (error) {
       console.error(error);
     }
-  }, [data, error, isError, isLoading, isPending, isSuccess, receipt])
+  }, [data, error, isError, isLoading, isPending, isSuccess, receipt, ethersData])
 
-  const main = async () => {
-    const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
-    const account_abi = '<abi>';
-    const nft_abi = '<abi>';
-    const signer = new ethers.Wallet(process.env.PRIVATE_KEY!, provider); //FIXME:need env variable
-    const contract = new ethers.Contract("<event account address>", account_abi, signer);
-    const iface = new ethers.utils.Interface(nft_abi);
-    //const token = await contract.token();
-    const owner = await contract.owner();
-    console.log(owner);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const nft_abi = '[{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"address","name":"owner","type":"address"}],"name":"ERC721IncorrectOwner","type":"error"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ERC721InsufficientApproval","type":"error"},{"inputs":[{"internalType":"address","name":"approver","type":"address"}],"name":"ERC721InvalidApprover","type":"error"},{"inputs":[{"internalType":"address","name":"operator","type":"address"}],"name":"ERC721InvalidOperator","type":"error"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"ERC721InvalidOwner","type":"error"},{"inputs":[{"internalType":"address","name":"receiver","type":"address"}],"name":"ERC721InvalidReceiver","type":"error"},{"inputs":[{"internalType":"address","name":"sender","type":"address"}],"name":"ERC721InvalidSender","type":"error"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ERC721NonexistentToken","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"counter","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"maxSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"mint","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"}]';
+        const iface = new ethers.utils.Interface(nft_abi);
+        const functionName = "mint";
+        const params = [1];
+        const data = iface.encodeFunctionData(functionName, params);
+        console.log(data);
+        setEthersData(data);
+      } catch (error) {
+        console.error("錯誤捕獲:", error);
+      }
+    }
+    getData();
+  }, []);
 
-    const functionName = "mint";
-    const params = [1];
-    const data = iface.encodeFunctionData(functionName, params);
-
-    const req = await contract.execute("<nft address>", 0, data, 0);
-    const res = await req.wait();
-    console.log(res);
-  }
 
   return (
     <>
@@ -74,7 +71,7 @@ export function Erc6551MintNft() {
           }}>
           use erc6551 mint nft:
         </Typography>
-        <TextField fullWidth label="token id" id="addInput"
+        <TextField fullWidth label="erc6551 address" id="addInput"
           InputLabelProps={{ style: { color: 'white' } }}
           color='secondary'
           sx={{
@@ -84,8 +81,8 @@ export function Erc6551MintNft() {
           inputProps={{
             style: { color: 'white' },
           }}
-          // value={tokenId} //TODO: change variable 
-          // onChange={(e) => setTokenId(e.target.value)} //TODO: change variable 
+          value={ERC6551AccountWallet} //TODO: change variable
+          onChange={(e) => setERC6551AccountWallet(e.target.value)} //TODO: change variable
         />
         <Button fullWidth variant="contained" onClick={() => mintFunction()}>
           Mint
