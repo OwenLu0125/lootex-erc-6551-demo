@@ -81,9 +81,19 @@ export function CreateErc6551Account() {
         </div>
         {isPending && <div>Pending...</div>}
         {/* TODO: 確認下一行是否可以正確顯示 tba 資料 */}
-        {isSuccess && <div>Success: {receipt && receipt.toString()}</div>}
+        {isSuccess &&
+          <>
+            <Typography
+              sx={{
+                color: 'white',
+              }}
+            >
+              Success: {receipt && receipt.toString()}
+            </Typography>
+          </>
+        }
         {isError &&
-          <div>
+          <>
             <Typography
               sx={{
                 color: 'purple',
@@ -91,7 +101,8 @@ export function CreateErc6551Account() {
             >
               {error?.message}
             </Typography>
-          </div>}
+          </>
+        }
       </Box>
     </>
   );

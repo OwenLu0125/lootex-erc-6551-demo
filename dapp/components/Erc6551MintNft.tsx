@@ -74,7 +74,7 @@ export function Erc6551MintNft() {
           }}>
           use erc6551 mint nft:
         </Typography>
-        {/* <TextField fullWidth label="token id" id="addInput"
+        <TextField fullWidth label="token id" id="addInput"
           InputLabelProps={{ style: { color: 'white' } }}
           color='secondary'
           sx={{
@@ -84,9 +84,9 @@ export function Erc6551MintNft() {
           inputProps={{
             style: { color: 'white' },
           }}
-          // value={tokenId}
-          // onChange={(e) => setTokenId(e.target.value)}
-        /> */}
+          // value={tokenId} //TODO: change variable 
+          // onChange={(e) => setTokenId(e.target.value)} //TODO: change variable 
+        />
         <Button fullWidth variant="contained" onClick={() => mintFunction()}>
           Mint
         </Button>

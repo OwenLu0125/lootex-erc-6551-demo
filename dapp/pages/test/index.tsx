@@ -1,4 +1,3 @@
-import { SetStateAction, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -9,9 +8,6 @@ import { CreateErc6551Account } from '../../components/CreateErc6551Account';
 import { Erc6551MintNft } from '../../components/Erc6551MintNft';
 
 const Home: NextPage = () => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [nftContractAddressInput, setNftContractAddressInput] = useState<string>('');
-  const [tokenIdInput, setTokenIdInput] = useState<number>(Number);
 
   return (
     <main className="...">
