@@ -7,6 +7,7 @@ import { ethers } from 'ethers';
 export function Erc6551MintNft() {
   const [ethersData, setEthersData] = useState<string>('');
   const [ERC6551AccountWallet, setERC6551AccountWallet] = useState<any>('');
+  const [nftContractAddress, setNftContractAddress] = useState<any>('');
 
   const { write: mintFunction, data, error, isLoading, isError } = useContractWrite({
     address: ERC6551AccountWallet, // fill in the tba address
@@ -84,6 +85,19 @@ export function Erc6551MintNft() {
           }}
           value={ERC6551AccountWallet} 
           onChange={(e) => setERC6551AccountWallet(e.target.value)}
+        />
+        <TextField fullWidth label="NFT contract address" id="addInput"
+          InputLabelProps={{ style: { color: 'white' } }}
+          color='secondary'
+          sx={{
+            mb: '15px',
+            mt: '15px',
+          }}
+          inputProps={{
+            style: { color: 'white' },
+          }}
+          value={nftContractAddress}
+          onChange={(e) => setNftContractAddress(e.target.value)}
         />
         <Button fullWidth variant="contained" onClick={() => mintFunction()}>
           Mint
