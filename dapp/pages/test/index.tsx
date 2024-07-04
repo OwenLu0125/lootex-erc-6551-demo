@@ -6,6 +6,7 @@ import { WriteContract } from '../../components/WriteContract';
 import { ReadContract } from '../../components/ReadContract';
 import { CreateErc6551Account } from '../../components/CreateErc6551Account';
 import { Erc6551MintNft } from '../../components/Erc6551MintNft';
+import { ReadTbaNftBalance } from '../../components/ReadTbaNftBalance';
 
 const Home: NextPage = () => {
 
@@ -46,6 +47,7 @@ const Home: NextPage = () => {
                 <ConnectButton />
                 <CreateErc6551Account />
                 <Erc6551MintNft />
+                <ReadTbaNftBalance/>
               </Grid>
               {/* <WriteContract /> */}
               {/* <ReadContract /> */}

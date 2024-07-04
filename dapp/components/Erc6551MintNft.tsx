@@ -7,7 +7,7 @@ import { ethers } from 'ethers';
 export function Erc6551MintNft() {
   const [ethersData, setEthersData] = useState<string>('');
   const [ERC6551AccountWallet, setERC6551AccountWallet] = useState<any>('');
-  const [nftContractAddress, setNftContractAddress] = useState<any>('');
+  const [nftContractAddress, setNftContractAddress] = useState<any>('0x8A45161bFB9c36748CCA23E251143d02cd7b540d');
 
   const { write: mintFunction, data, error, isLoading, isError } = useContractWrite({
     address: ERC6551AccountWallet, // fill in the tba address
